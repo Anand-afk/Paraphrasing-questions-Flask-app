@@ -10,11 +10,14 @@
     <form action="/question" method="post">
         <p>Enter the question</p>
         <input type="text" name="question" />
-        <input type="submit" value="submit" />
+        <input type="submit" value="submit" id="submit"/>
     </form>
     <br>
     <br>
-    {{ output }}
+    {% for value in output %}
+    {{ value }}
+    <br>
+    {% endfor %}
 </div>
 </body>
 </html>

@@ -52,7 +52,7 @@ def question():
             if sent.lower() != question.lower() and sent not in final_outputs:
                 final_outputs.append(sent)
 
-        return render_template('question.html', output='Paraphrased Questions: ${}'.format(final_outputs))
+        return render_template('question.html', output=final_outputs)
 
     else:
         return 'hello'
