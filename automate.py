@@ -1,12 +1,23 @@
 import pandas as pd
 from selenium import webdriver
-
-df = pd.read_csv("questions- alex.csv")
-
-ques= df['Questions '][0]
-
+import re
+import os
 
 driver = webdriver.Chrome("C:\\Users\\arane\\Anand Projects\\Paraphrasing-questions-Flask-app\\chromedriver.exe")
-driver.get("http://17a9d3252a9f.ngrok.io")
-driver.find_element_by_name("question").send_keys(ques)
-driver.find_element_by_id("submit").click()
+driver.get("https://kindsaola-cac17e.bots.teneo.ai/general_enquiry_536803kc3081vrdatgv2gftaxs/")
+
+for filename in os.listdir("Questions"):
+    if filename.endswith(".csv"):
+        df = pd.read_csv(os.path.join("Questions/","%s")%filename)
+        df['Response']=""
+        for i in range(len(df['Questions'])):
+            driver.find_element_by_id("inputTextBox").send_keys(df['Questions'][i])
+            driver.find_element_by_id("inputButton").click()
+            driver.implicitly_wait(10)
+            df['Response'][i] = re.sub("^Text ","",(driver.find_element_by_class_name("outputText")).text)
+            driver.find_element_by_id("endSessionButton").click()
+            driver.implicitly_wait(10)
+        
+        df.to_csv(os.path.join("Questions/","%s") %filename)
+    else:
+        continue
